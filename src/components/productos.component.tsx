@@ -48,34 +48,21 @@ export default function FeaturedProductsComponent() {
       name: "Mouse Vertical Ergonómico",
       price: 199.99,
       rating: 4.5,
-      image: "/mouse.jpg?height=200&width=200",
+      image: "/mouse.jpg",
     },
     {
       id: 2,
       name: "Mini Buds",
       price: 89.99,
       rating: 4.2,
-      image: "/placeholder.svg?height=200&width=200",
+      image: "/minibuds.webp",
     },
-    {
-      id: 3,
-      name: "4K Drone",
-      price: 599.99,
-      rating: 4.8,
-      image: "/placeholder.svg?height=200&width=200",
-    },
-    {
-      id: 4,
-      name: "Smart Home Hub",
-      price: 129.99,
-      rating: 4.0,
-      image: "/placeholder.svg?height=200&width=200",
-    },
+
   ];
 
   const brands = [
-    { name: "Asus", logo: "/asus-logo.svg?height=50&width=100" },
-    { name: "Logitech", logo: "/logitech.svg?height=50&width=100" },
+    { name: "Asus", logo: "/asus-logo.svg" },
+    { name: "Logitech", logo: "/logitech.svg" },
   ];
 
   return (
