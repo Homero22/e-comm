@@ -177,7 +177,7 @@ export default function ProductCatalog() {
                       <Image
                         src={product.image}
                         alt={product.name}
-                        layout="fill"
+                        fill
                         objectFit="contain"
                         className="p-4"
                       />
@@ -207,13 +207,13 @@ export default function ProductCatalog() {
               onSubmit={handleSubmit}
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
-              <input
+              <input 
                 type="email"
                 placeholder="Tu correo electrónico"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="flex-grow px-4 py-2 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-grow px-4 text-black py-2 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <button
                 type="submit"
