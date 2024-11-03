@@ -177,7 +177,7 @@ export default function ProductCatalog() {
                       <Image
                         src={product.image}
                         alt={product.name}
-                        layout="fill"
+                        fill
                         objectFit="contain"
                         className="p-4"
                       />
