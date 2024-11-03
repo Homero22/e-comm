@@ -1,40 +1,59 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
-  ChevronLeft,
-  ChevronRight,
-  Star,
   Facebook,
   Twitter,
   Instagram,
   Linkedin,
   Mail,
+  Star,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { motion } from "framer-motion";
+import Link from "next/link";
 import Image from "next/image";
 
-export default function FeaturedProductsComponent() {
-  const [currentIndex, setCurrentIndex] = useState(0);
+// Componente de estrellas
+function StarRating({ rating }: { rating: number }) {
+  return (
+    <div className="flex">
+      {Array.from({ length: 5 }, (_, index) => {
+        const isFullStar = index + 1 <= Math.floor(rating);
+        const isHalfStar = !isFullStar && index < rating;
+
+        return (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0.5 }}
+            animate={{ opacity: isFullStar || isHalfStar ? 1 : 0.3 }}
+            transition={{ duration: 0.4, yoyo: Infinity }}
+            className="relative"
+          >
+            <Star
+              className={`w-5 h-5 ${
+                isFullStar ? "text-[#7315af] " : "text-gray-300"
+              }`}
+            />
+            {isHalfStar && (
+              <Star
+                className="absolute top-0 left-0 w-5 h-5 text-[#7315af] opacity-50"
+                style={{ clipPath: "inset(0 50% 0 0)" }}
+              />
+            )}
+          </motion.div>
+        );
+      })}
+    </div>
+  );
+}
+
+export default function ProductCatalog() {
+  const [isVisible, setIsVisible] = useState(false);
   const [email, setEmail] = useState("");
 
-  const nextProduct = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % products.length);
-  };
-
-  const prevProduct = () => {
-    setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + products.length) % products.length
-    );
-  };
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,235 +65,170 @@ export default function FeaturedProductsComponent() {
     {
       id: 1,
       name: "Mouse Vertical Ergonómico",
-      price: 199.99,
       rating: 4.5,
-      image: "/mouse.jpg",
+      image: "/mouse.png",
+      link: "https://amzn.to/3YQhhAz",
     },
     {
       id: 2,
       name: "Mini Buds",
-      price: 89.99,
-      rating: 4.2,
+      rating: 4.9,
       image: "/minibuds.webp",
+      link: "https://amzn.to/3YAzOiI",
     },
-
-  ];
-
-  const brands = [
-    { name: "Asus", logo: "/asus-logo.svg" },
-    { name: "Logitech", logo: "/logitech.svg" },
+    {
+      id: 3,
+      name: "Teclado Mecánico",
+      rating: 4,
+      image: "/teclado.jpg",
+      link: "https://amzn.to/3YQkoIK",
+    },
+    {
+      id: 4,
+      name: "Monitor Curvo",
+      rating: 4,
+      image: "/monitor.jpg",
+      link: "https://amzn.to/3NOPTwt",
+    },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-100 to-white">
-      <header className="py-4 sm:py-6 bg-white shadow-md">
-        <h1 className="text-2xl sm:text-3xl font-bold text-center text-blue-600">
-          Productos Destacados
-        </h1>
-        <div className="text-center mt-2">
-          <h2 className="text-xl sm:text-2xl font-semibold text-gray-700">
+    <div
+      className={`min-h-screen bg-[#676e82] text-gray-100  ${
+        isVisible ? "opacity-100" : "opacity-0"
+      }`}
+    >
+      <header className="py-4 sm:py-6 bg-[#070e23] text-white shadow-lg">
+        <div className="w-full max-w-6xl mx-auto px-4">
+          <motion.h1
+            className="text-4xl sm:text-5xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-[#4700c1] to-[#727b8f]"
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+          >
             Homer Code
-          </h2>
-          <div className="flex justify-center space-x-4 mt-2">
-            <a
+          </motion.h1>
+          { /*<motion.h2
+            className="text-xl sm:text-base font-sans text-center mt-2"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            Tecnología, gadgets y más
+          </motion.h2> */}
+          <div className="flex justify-center space-x-4 mt-4">
+            <motion.a
               href="#"
-              className="text-gray-600 hover:text-blue-600 transition-colors"
+              className="transition-transform transform hover:scale-110"
               aria-label="Facebook"
+              whileHover={{ scale: 1.2 }}
             >
-              <Facebook className="w-5 h-5 sm:w-6 sm:h-6" />
-            </a>
-            <a
+              <Facebook className="w-6 h-6 text-white hover:text-blue-300" />
+            </motion.a>
+            <motion.a
               href="#"
-              className="text-gray-600 hover:text-blue-400 transition-colors"
+              className="transition-transform transform hover:scale-110"
               aria-label="Twitter"
+              whileHover={{ scale: 1.2 }}
             >
-              <Twitter className="w-5 h-5 sm:w-6 sm:h-6" />
-            </a>
-            <a
+              <Twitter className="w-6 h-6 text-white hover:text-blue-300" />
+            </motion.a>
+            <motion.a
               href="#"
-              className="text-gray-600 hover:text-pink-600 transition-colors"
+              className="transition-transform transform hover:scale-110"
               aria-label="Instagram"
+              whileHover={{ scale: 1.2 }}
             >
-              <Instagram className="w-5 h-5 sm:w-6 sm:h-6" />
-            </a>
-            <a
+              <Instagram className="w-6 h-6 text-[#] hover:text-blue-300" />
+            </motion.a>
+            <motion.a
               href="#"
-              className="text-gray-600 hover:text-blue-800 transition-colors"
+              className="transition-transform transform hover:scale-110"
               aria-label="LinkedIn"
+              whileHover={{ scale: 1.2 }}
             >
-              <Linkedin className="w-5 h-5 sm:w-6 sm:h-6" />
-            </a>
+              <Linkedin className="w-6 h-6 text-white hover:text-blue-300" />
+            </motion.a>
           </div>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-6 sm:py-8">
-        {/* Sección de marcas */}
+      <main className="w-full max-w-6xl mx-auto px-4 py-8">
         <section className="mb-12">
-          <h2 className="text-xl sm:text-2xl font-semibold text-center mb-6">
-            Marcas de calidad
+          <h2 className="text-2xl font-semibold text-white mb-6">
+            Productos que te recomiendo 🚀
           </h2>
-          <div className="flex flex-wrap justify-center items-center gap-8">
-            {brands.map((brand) => (
-              <div key={brand.name} className="flex flex-col items-center">
-                  <Image
-                  src={brand.logo}
-                  alt={`Logo de ${brand.name}`}
-                  width={100} // Ajusta el ancho según sea necesario
-                  height={50} // Ajusta la altura según sea necesario
-                />
-                
-                <span className="mt-2 text-sm text-gray-600">{brand.name}</span>
-              </div>
-            ))}
-          </div>
-        </section>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {products.map((product) => (
+              <motion.div
+                key={product.id}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="relative bg-white rounded-lg shadow-lg overflow-hidden transition-shadow hover:shadow-xl group"
+              >
+                {/* Franja de "Comprar ahora!" que se muestra solo al hacer hover */}
+                <div className="absolute top-10 left-4 bg-blue-600 text-white text-sm font-bold px-3 py-1 transform -rotate-12 origin-top-left opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                  ¡Comprar ahora!
+                </div>
 
-        {/* Sección de correo Gmail */}
-        <section className="mb-12 bg-gray-100 rounded-lg p-6 text-center">
-          <h2 className="text-xl sm:text-2xl font-semibold mb-4">
-            Contáctanos
-          </h2>
-          <p className="text-lg">
-            <Mail className="inline-block mr-2 mb-1" />
-            <a
-              href="mailto:tu.correo@gmail.com"
-              className="text-blue-600 hover:underline"
-            >
-              tu.correo@gmail.com
-            </a>
-          </p>
-        </section>
-
-        {/* Sección de productos destacados modificada */}
-        <section className="mb-12">
-          <div className="flex flex-col md:flex-row items-center gap-8 mb-8">
-            <div className="w-medium md:w-1/2">
-              <Image
-                src="/mouse.jpg"
-                alt="Productos destacados"
-                layout="responsive" // Añadido para optimizar la imagen
-                width={100} // Ajusta el ancho según sea necesario
-                height={50} // Ajusta la altura según sea necesario
-              ></Image>
-            </div>
-
-            <div className="w-full md:w-1/2">
-              <h2 className="text-2xl sm:text-3xl font-bold mb-4">
-                Descubre Nuestros Productos Destacados
-              </h2>
-              <p className="text-gray-600 mb-4">
-                Explora nuestra selección de productos innovadores y de alta
-                calidad. Desde tecnología de vanguardia hasta soluciones
-                inteligentes para el hogar, tenemos todo lo que necesitas para
-                mejorar tu estilo de vida.
-              </p>
-              <Button>Ver todos los productos</Button>
-            </div>
-          </div>
-          <div className="relative">
-            <div className="flex overflow-hidden">
-              {products.map((product, index) => (
-                <Card
-                  key={product.id}
-                  className={`w-full flex-shrink-0 transition-all duration-300 ease-in-out transform ${
-                    index === currentIndex
-                      ? "scale-100 opacity-100"
-                      : "scale-95 opacity-0"
-                  }`}
-                  style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-                >
-                  <CardHeader>
-                    <CardTitle className="text-lg sm:text-xl">
-                      {product.name}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="aspect-square relative">
+                <Link href={product.link} passHref>
+                  <div className="block">
+                    <div className="relative h-48">
                       <Image
                         src={product.image}
                         alt={product.name}
                         layout="fill"
-                        objectFit="cover"
-                        className="rounded-md"
+                        objectFit="contain"
+                        className="p-4"
                       />
                     </div>
-                    <div className="mt-4 flex justify-between items-center">
-                      <span className="text-xl sm:text-2xl font-bold">
-                        ${product.price.toFixed(2)}
-                      </span>
-                      <div className="flex items-center">
-                        <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-yellow-400 stroke-yellow-400" />
-                        <span className="ml-1 text-sm text-gray-600">
-                          {product.rating}
-                        </span>
-                      </div>
+                    <div className="p-4">
+                      <h3 className="text-lg font-semibold text-blue-600 mb-2">
+                        {product.name}
+                      </h3>
+                      <StarRating rating={product.rating} />
                     </div>
-                  </CardContent>
-                  <CardFooter>
-                    <Button className="w-full text-sm sm:text-base">
-                      Añadir al carrito
-                    </Button>
-                  </CardFooter>
-                </Card>
-              ))}
-            </div>
-            <Button
-              variant="outline"
-              className="absolute top-1/2 left-2 sm:left-4 transform -translate-y-1/2 rounded-full p-2 sm:p-4"
-              onClick={prevProduct}
-            >
-              <ChevronLeft className="h-4 w-4 sm:h-6 sm:w-6" />
-              <span className="sr-only">Producto anterior</span>
-            </Button>
-            <Button
-              variant="outline"
-              className="absolute top-1/2 right-2 sm:right-4 transform -translate-y-1/2 rounded-full p-2 sm:p-4"
-              onClick={nextProduct}
-            >
-              <ChevronRight className="h-4 w-4 sm:h-6 sm:w-6" />
-              <span className="sr-only">Siguiente producto</span>
-            </Button>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
           </div>
         </section>
 
-        {/* Sección de contacto CTA */}
-        <section className="bg-blue-600 text-white rounded-lg p-6 sm:p-10 mb-12">
+        <section className="bg-[#070e23] rounded-lg p-6 sm:p-10 mb-12">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-4">
-              ¿Quieres recibir ofertas exclusivas?
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
+            Mantente al día con productos en tendencia. ¡Suscríbete! 📩
             </h2>
-            <p className="mb-6">
-              Suscríbete a nuestro boletín y obtén un 10% de descuento en tu
-              primera compra.
+            <p className="mb-6 text-gray-700">
+              Recibe notificaciones de nuevos productos, ofertas y más.
             </p>
             <form
               onSubmit={handleSubmit}
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
-              <Input
+              <input
                 type="email"
                 placeholder="Tu correo electrónico"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="bg-white text-black"
+                className="flex-grow px-4 py-2 rounded-md border border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-              <Button
+              <button
                 type="submit"
-                variant="secondary"
-                className="bg-white text-blue-600 hover:bg-blue-100"
+                className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors duration-300 flex items-center justify-center"
               >
                 <Mail className="w-4 h-4 mr-2" />
                 Suscribirse
-              </Button>
+              </button>
             </form>
           </div>
         </section>
       </main>
 
       <footer className="py-4 sm:py-6 bg-gray-100">
-        <div className="container mx-auto px-4">
+        <div className="w-full max-w-6xl mx-auto px-4">
           <p className="text-sm sm:text-base text-gray-600 text-center">
             &copy; 2024 Homer Code. Todos los derechos reservados.
           </p>
