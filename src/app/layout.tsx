@@ -14,11 +14,6 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-<<<<<<< HEAD
-  title: "Homer Code - Tecnología, gadgets y más",
-  description: "Accesorios, gadgets y tecnología para tu día a día",
-  keywords: ["tecnología", "gadgets", "accesorios", "hogar", "amazon"],
-=======
   title: "Homer Code | Accesorios y Tecnología para Todos",
 
   description: "Encuentra los mejores accesorios y tecnología en Homer Code, desde gadgets hasta productos recomendados por Amazon afiliados.",
@@ -40,7 +35,6 @@ export const metadata: Metadata = {
 },
 
  
->>>>>>> 8b5ec0cc813d1d3da23a2702e13cb78a09c4de88
 };
 
 export default function RootLayout({
