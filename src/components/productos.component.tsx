@@ -50,15 +50,34 @@ function StarRating({ rating }: { rating: number }) {
 export default function ProductCatalog() {
   const [isVisible, setIsVisible] = useState(false);
   const [email, setEmail] = useState("");
+  const [subscriptionMessage, setSubscriptionMessage] = useState(""); // Estado para el mensaje de suscripción
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Email submitted:", email);
-    setEmail("");
+
+    try {
+      const response = await fetch("/api/addEmail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (response.ok) {
+        setSubscriptionMessage("¡Gracias por suscribirte! 🎉"); // Mensaje de éxito
+        setEmail("");
+      } else {
+        setSubscriptionMessage("Hubo un error al guardar tu correo. Inténtalo de nuevo."); // Mensaje de error
+      }
+    } catch (error) {
+      console.error("Error en la solicitud:", error);
+      setSubscriptionMessage("Hubo un problema con la solicitud. Por favor, inténtalo más tarde.");
+    }
   };
 
   const products = [
@@ -108,14 +127,6 @@ export default function ProductCatalog() {
           >
             Homer Code
           </motion.h1>
-          { /*<motion.h2
-            className="text-xl sm:text-base font-sans text-center mt-2"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            Tecnología, gadgets y más
-          </motion.h2> */}
           <div className="flex justify-center space-x-4 mt-4">
             <motion.a
               href="#"
@@ -166,7 +177,6 @@ export default function ProductCatalog() {
                 whileTap={{ scale: 0.95 }}
                 className="relative bg-white rounded-lg shadow-lg overflow-hidden transition-shadow hover:shadow-xl group"
               >
-                {/* Franja de "Comprar ahora!" que se muestra solo al hacer hover */}
                 <div className="absolute top-10 left-4 bg-blue-600 text-white text-sm font-bold px-3 py-1 transform -rotate-12 origin-top-left opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
                   ¡Comprar ahora!
                 </div>
@@ -178,7 +188,7 @@ export default function ProductCatalog() {
                         src={product.image}
                         alt={product.name}
                         fill
-                        objectFit="contain"
+                        style={{ objectFit: "contain" }}
                         className="p-4"
                       />
                     </div>
@@ -198,7 +208,7 @@ export default function ProductCatalog() {
         <section className="bg-[#070e23] rounded-lg p-6 sm:p-10 mb-12">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
-            Mantente al día con productos en tendencia. ¡Suscríbete! 📩
+              Mantente al día con productos en tendencia. ¡Suscríbete! 📩
             </h2>
             <p className="mb-6 text-gray-700">
               Recibe notificaciones de nuevos productos, ofertas y más.
@@ -207,7 +217,7 @@ export default function ProductCatalog() {
               onSubmit={handleSubmit}
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
-              <input 
+              <input
                 type="email"
                 placeholder="Tu correo electrónico"
                 value={email}
@@ -223,17 +233,15 @@ export default function ProductCatalog() {
                 Suscribirse
               </button>
             </form>
+            {subscriptionMessage && (
+              <p className="mt-4 text-center text-white font-semibold">
+                {subscriptionMessage}
+              </p>
+            )}
           </div>
         </section>
       </main>
-
-      <footer className="py-4 sm:py-6 bg-gray-100">
-        <div className="w-full max-w-6xl mx-auto px-4">
-          <p className="text-sm sm:text-base text-gray-600 text-center">
-            &copy; 2024 Homer Code. Todos los derechos reservados.
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }
+
