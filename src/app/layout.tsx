@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Homer Code | Accesorios y Tecnología",
     description: "Encuentra los mejores accesorios y tecnología en Homer Code, con gadgets y productos recomendados.",
-    images: "/logitech.png",
+    images: "/homer.jpeg",
     url: "https://e-com.ojedahomero.lol/",
     type: "website",
  },
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   site: "@tuCuentaDeTwitter",
   title: "Homer Code | Accesorios y Tecnología",
   description: "Descubre gadgets y accesorios de calidad recomendados en Amazon.",
-  images: "/logitech.png",
+  images: "/homer.jpeg",
 },
 
  
